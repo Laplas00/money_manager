@@ -1,10 +1,8 @@
 from abc import abstractmethod, ABC
-from functools import wraps
 from collections import UserDict
 import pickle
 from datetime import date
 
-print(date.today().weekday())
 
 class Data(ABC):
     """
@@ -13,7 +11,7 @@ class Data(ABC):
     but i want to practise with it, ohh..
     """
     @abstractmethod
-    def get_data(self):
+    def __init__(self):
         pass
 
     @abstractmethod
@@ -26,19 +24,22 @@ class Data(ABC):
 
 
 class FileData(Data, UserDict):
-    def get_data(self):
+    def __init__(self):
         try:
             with open('data.txt', 'rb') as file:
                 self.data = pickle.load(file)
+                print('data connected')
         except:
+            print('data created')
             self.data = {}
         
     def save_data(self):
         with open('data.txt', 'wb') as file:
-            self.data = pickle.dump(self.data, file)
+            pickle.dump(self.data, file)
 
     def get_info(self):
-        return self.data
+        for i in self.data:
+            print('[ - ', i)
 
 
 class Waste:
@@ -82,17 +83,50 @@ class Wallet:
     def __init__(self, wallet_name:str, balance: float):
         self.wallet_name = wallet_name
         self.balance = balance
+        self.data = {}
         
-    def add_waste(self, data:dict, waste:Waste):
-        if data.data[date.today()] in data.data:
-            data.data[date.today()].append(waste)
+    def add_waste(self, waste:Waste):
+        if str(date.today()) in self.data:
+            self.data[str(date.today())][waste.name] = {waste.amount, waste.category}
+            print('i think ok')
         else:
-            data.data[date.today()] = [waste]
+            self.data[str(date.today())] = {}
+            self.data[str(date.today())][waste.name] = {waste.amount : waste.category}
+            print('else')
 
-    def get_info(self, data):
-        for i in data.data:
-            print(i)
-    
+    def get_info(self):
+        print(self.data)
+
+
+class WalletList(Data):
+    def __init__(self):
+        self.data = FileData()
+        
+    def save_data(self, wallet:Wallet):
+        self.data.data[wallet.wallet_name] = wallet
+        self.data.save_data()
+        
+    def get_info(self):
+        self.data.get_info()
+
+    def del_wallet(self, wallet_name):
+
+        print(self.data)
+        print(self.data.data)
+        # how is it happpened
+        print(self.data == self.data.data)
+        del self.data.data[wallet_name]
+
+        
+        
+
+
+
+
+
+
+
+
 
     
 
