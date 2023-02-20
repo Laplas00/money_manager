@@ -1,0 +1,5 @@
+2023-02-20 15:29:37,300 [ERROR] - functions -         wrapper:28 - Start
+2023-02-20 15:30:42,642 [ERROR] - functions -         wrapper:28 - delete_spend, (['po', 'kb'],)
+2023-02-20 15:37:17,715 [ERROR] - functions -    show_wallets:71 - show_wallets
+2023-02-20 15:37:21,596 [ERROR] - functions -    delete_spend:86 - delete_spend, ['', '']
+2023-02-20 15:37:21,596 [ERROR] - functions -     wal_by_name:31 - wal_by_name, 
