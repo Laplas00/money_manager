@@ -3,6 +3,7 @@ from core import *
 
 WALLETS = WalletList()
 
+
 def input_error(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -15,18 +16,22 @@ def input_error(func):
             print('\nNo data')
         except KeyError:
             print('command dont exist')
+        except AttributeError:
+            print('Dont exist')
     return wrapper
+
+
+@input_error
+def wal_by_name(wal_name):
+    wallet = WALLETS.data[wal_name]
+    return wallet
 
 
 @input_error
 def create_waste(args:list):
     name, amount, category, wallet = args[0],args[1],args[2],args[3]
     if wallet not in WALLETS.data.data:
-        print('wallet no in data.data')
-        return False
-    print('==')
-    print(WALLETS.data.data)
-    print('==')
+        raise AttributeError
 
     waste_builder = WasteBuilder() \
             .set_name(name) \
@@ -35,7 +40,7 @@ def create_waste(args:list):
     
     waste = waste_builder.create()
     WALLETS.data[wallet].add_waste(waste)
-    wallet = WALLETS.data[wallet]
+    wallet = wal_by_name(wallet)
     WALLETS.save_data(wallet)
     return waste
 
@@ -54,23 +59,30 @@ def show_wallet_spendings(args:list):
 
 @input_error
 def show_wallets():
-    if WALLETS.get_info() == None:
+    if WALLETS.data.data == {}:
         raise MemoryError
     return WALLETS.get_info()
 
 @input_error    
-def delete_wallet(wal_name):
-    WALLETS.del_wallet(wal_name)
+def delete_wallet(args:list):
+    wal_name = args[0]
+    WALLETS.del_data(wal_name)
+    WALLETS.save_data(None)
+    return True
 
 @input_error    
-def delete_spend(spend_name):
-    WALLETS.data
+def delete_spend(args:list):
+    wallet = wal_by_name(args[0])
+    wallet.delete_waste(args[1])
+    WALLETS.save_data(wallet)
+    return True
+
 
 def quit():
     print('Se u :)')
     exit()
 
-def useful_inputs():
+def useful_inputs() -> str:
     r = input(': ')
     return r
 

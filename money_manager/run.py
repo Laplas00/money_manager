@@ -1,5 +1,6 @@
 from core import *
 from functions import *
+import os
 
 
 
@@ -8,7 +9,7 @@ COMMANDS = {
     'create wallet' : [['name','amount'],create_wallet],
     'sh wal spends' : [['wallet name'],show_wallet_spendings],
     'delete wallet' : [['wallet name'],delete_wallet],
-    'delete spend' : [['spend name'],delete_spend],
+    'delete spend' : [['wallet name','spend name'],delete_spend],
     
 }
 NO_INP_COM = {
@@ -23,7 +24,7 @@ def handler(command):
     argues=[]
     if command in COMMANDS:
         for i in COMMANDS[command][0]:
-            print(i)
+            print('|=',i)
             inp = useful_inputs()
             argues.append(inp)
         com = COMMANDS[command][1]
@@ -33,16 +34,21 @@ def handler(command):
     
 
 def main():
-    print('___________________')
+    os.system('clear')
     while True:
+        print('___________________')
         for command in COMMANDS:
-            print(command)
+            print('|-', command)
         for command in NO_INP_COM:
-            print(command)
+            print('|-', command)
 
         command = useful_inputs()
         handler(command)
-        print("_______________")
+        input()
+        os.system('clear')
+
+        
+
 
 
 if __name__ == "__main__":

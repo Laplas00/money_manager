@@ -22,6 +22,9 @@ class Data(ABC):
     def get_info(self):
         pass
 
+    @abstractmethod
+    def del_data(self):
+        pass
 
 class FileData(Data, UserDict):
     def __init__(self):
@@ -39,7 +42,10 @@ class FileData(Data, UserDict):
 
     def get_info(self):
         for i in self.data:
-            print('[ - ', i)
+            print(f'| - {i} : {self.data[i].balance}')
+
+    def del_data(self, key):
+        del self.data[key]
 
 
 class Waste:
@@ -88,34 +94,45 @@ class Wallet:
     def add_waste(self, waste:Waste):
         if str(date.today()) in self.data:
             self.data[str(date.today())][waste.name] = {waste.amount, waste.category}
-            print('i think ok')
         else:
             self.data[str(date.today())] = {}
             self.data[str(date.today())][waste.name] = {waste.amount : waste.category}
-            print('else')
+
 
     def get_info(self):
-        print(self.data)
+        for i in self.data:
+            print('|_\n| ',i)
+            for di in self.data[i]:
+                print(f'| {di} {self.data[i][di]}' )
+
+    def delete_waste(self, waste_name):
+        for i in self.data:
+            for date in self.data[i]:
+                if waste_name in date:
+                    del self.data[i][waste_name]
+                    return True
+            
+
+
 
 
 class WalletList(Data):
     def __init__(self):
         self.data = FileData()
         
-    def save_data(self, wallet:Wallet):
+    def save_data(self, wallet):
+        if wallet == None:
+            self.data.save_data()
+            return True
         self.data.data[wallet.wallet_name] = wallet
         self.data.save_data()
         
     def get_info(self):
         self.data.get_info()
 
-    def del_wallet(self, wallet_name):
+    def del_data(self, key):
+        self.data.del_data(key)
 
-        print(self.data)
-        print(self.data.data)
-        # how is it happpened
-        print(self.data == self.data.data)
-        del self.data.data[wallet_name]
 
         
         
