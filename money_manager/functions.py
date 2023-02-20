@@ -51,6 +51,7 @@ def create_waste(args:list):
     WALLETS.save_data(wallet)
     return waste
 
+
 @input_error
 def create_wallet(args:list):
     logger.log(level=logging.ERROR, msg=f"{create_wallet.__name__}, {args}")
@@ -60,11 +61,13 @@ def create_wallet(args:list):
 
     return wallet
 
+
 @input_error
 def show_wallet_spendings(args:list):
     logger.log(level=logging.ERROR, msg=f"{show_wallet_spendings.__name__}, {args}")
     wallet_name = args[0]
     return WALLETS.data.data[wallet_name].get_info()
+
 
 @input_error
 def show_wallets():
@@ -73,6 +76,7 @@ def show_wallets():
         raise MemoryError
     return WALLETS.get_info()
 
+
 @input_error    
 def delete_wallet(args:list):
     logger.log(level=logging.ERROR, msg=f"{delete_wallet.__name__}, {args}")
@@ -80,6 +84,7 @@ def delete_wallet(args:list):
     WALLETS.del_data(wal_name)
     WALLETS.save_data(None)
     return True
+
 
 @input_error    
 def delete_spend(args:list):
@@ -93,6 +98,7 @@ def delete_spend(args:list):
 def quit():
     print('Se u :)')
     exit()
+
 
 def useful_inputs() -> str:
     r = input(': ')
