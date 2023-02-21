@@ -5,11 +5,12 @@ import os
 
 
 COMMANDS = {
-    'create waste' : [['name','amount','category', 'wallet'],create_waste],
     'create wallet' : [['name','amount'],create_wallet],
     'sh wal spends' : [['wallet name'],show_wallet_spendings],
     'delete wallet' : [['wallet name'],delete_wallet],
     'delete spend' : [['wallet name','spend name'],delete_spend],
+    'create waste' : [['Enter the name','Enter amount',
+        'Chose category', 'wallet'],create_waste],
     
 }
 NO_INP_COM = {
@@ -19,7 +20,7 @@ NO_INP_COM = {
 
 # waste dont saving in data.txt
 
-@input_error
+# @input_error
 def handler(command):
     argues=[]
     if command in COMMANDS:

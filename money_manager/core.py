@@ -88,33 +88,31 @@ class WasteBuilder:
 class Wallet:
     def __init__(self, wallet_name:str, balance: float):
         self.wallet_name = wallet_name
-        self.balance = balance
+        self.balance = float(balance)
         self.data = {}
         
     def add_waste(self, waste:Waste):
+        self.balance -= float(waste.amount)
         if str(date.today()) in self.data:
-            self.data[str(date.today())][waste.name] = {waste.amount, waste.category}
-        else:
-            self.data[str(date.today())] = {}
-            self.data[str(date.today())][waste.name] = {waste.amount : waste.category}
-
-
+            self.data[str(date.today())][waste.name] = waste
+        else:    
+            self.data[str(date.today())] = {waste.name : waste}
+    
     def get_info(self):
         for i in self.data:
-            print('|_\n| ',i)
+            print('|_\n|',i)
             for di in self.data[i]:
-                print(f'| {di} {self.data[i][di]}' )
+                print('|{:<10}|{:^10}|{:>10}|'.format(di,self.data[i][di].amount,self.data[i][di].category  ) )
 
     def delete_waste(self, waste_name):
-        for i in self.data:
-            for date in self.data[i]:
-                if waste_name in date:
-                    del self.data[i][waste_name]
+        for date in self.data:
+            for waste in self.data[date]:
+                if waste == waste_name:
+                    self.balance += self.data[date][waste].amount
+                    del self.data[date][waste]
                     return True
-            
-
-
-
+                continue
+                
 
 class WalletList(Data):
     def __init__(self):

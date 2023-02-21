@@ -33,7 +33,7 @@ def wal_by_name(wal_name):
     return wallet
 
 
-@input_error
+# @input_error
 def create_waste(args:list):
     logger.log(level=logging.ERROR, msg=f"{create_waste.__name__}, {args}")
     name, amount, category, wallet = args[0],args[1],args[2],args[3]
