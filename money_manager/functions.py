@@ -101,7 +101,7 @@ def quit():
 
 
 def useful_inputs() -> str:
-    r = input(': ')
+    r = str(input(': '))
     return r
 
 
