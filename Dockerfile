@@ -13,7 +13,7 @@ COPY pyproject.toml $APP_HOME/pyproject.toml
 
 # Установим зависимости внутри контейнера
 RUN pip install poetry
-RUN poetry install --only main
+RUN poetry virtualenvs.create false && install --only main
 
 # Скопируем остальные файлы в рабочую директорию контейнера
 COPY . .
