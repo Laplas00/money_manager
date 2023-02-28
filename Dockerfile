@@ -8,14 +8,19 @@ ENV APP_HOME /program
 # Установим рабочую директорию внутри контейнера
 WORKDIR $APP_HOME
 
+COPY poetry.lock $APP_HOME/poetry.lock
+COPY pyproject.toml $APP_HOME/pyproject.toml
+
+# Установим зависимости внутри контейнера
+RUN pip install poetry
+RUN poetry install --only main
+
 # Скопируем остальные файлы в рабочую директорию контейнера
 COPY . .
 
-# Установим зависимости внутри контейнера
-RUN pip install -r requirements.txt
 
 # Обозначим порт где работает приложение внутри контейнера
 EXPOSE 5000
 
 # Запустим наше приложение внутри контейнера
-ENTRYPOINT ["python3", "money_manager/run.py"]
+CMD ["python3", "money_manager/run.py"]
